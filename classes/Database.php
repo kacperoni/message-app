@@ -21,10 +21,11 @@ class Database
             foreach ($params as $param) {
                 $types .= $this->getType($param);
             }
-            $stmt->bind_param($types, $params);
+            $stmt->bind_param($types, ...$params);
         }
 
-        return $stmt->execute();
+        $stmt->execute();
+        return $stmt;
     }
 
     private function getType($variable): string
@@ -38,5 +39,12 @@ class Database
     public function escapeString(string $string): string
     {
         return $this->mysqli->escape_string($string);
+    }
+
+    public function numRows(string $sql = '', array $params = []): int
+    {
+        $stmt = $this->query($sql, $params);
+        $stmt->store_result();
+        return $stmt->num_rows;
     }
 }
