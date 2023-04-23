@@ -29,20 +29,20 @@ final class Session
         }
     }
 
-    public function loginUser(array $user)
+    public function loginUser(User $user)
     {
-        foreach ($user as $key => $value) {
-            if ($key === 'password')
-                continue;
-            $_SESSION[$key] = $value;
+        foreach ($user->props as $key => $value) {
+            $geterName = 'get' . ucfirst($value);
+            $_SESSION[$value] = $user->$geterName();
         }
         header("Location: home.php");
     }
 
-    public function logoutUser()
+    public function logoutUser(User $user)
     {
         session_unset();
         session_destroy();
+        // $user->unsetUser();
         $this->setFlashMessage('success', 'You have been logout successfully!');
         header('Location: index.php');
     }

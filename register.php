@@ -30,7 +30,7 @@ if (isset($_POST['register_submit'])) {
                     $profilePictureName = 'default_profile.png';
 
                 $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 10]);
-                $sql = "INSERT INTO users (email, firstname, password, profile_picture) VALUES (?, ?, ?, ?)";
+                $sql = "INSERT INTO users (email, firstname, password, profilePicture) VALUES (?, ?, ?, ?)";
                 $database->query($sql, [$email, $firstname, $password, $profilePictureName]);
                 $session->setFlashMessage('success', 'Account has been created!');
                 header("Location: index.php");

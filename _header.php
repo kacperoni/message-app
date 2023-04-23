@@ -18,9 +18,9 @@ ob_start();
 spl_autoload_register(function ($class) {
     include 'classes/' . $class . '.php';
 });
-
 $database = new Database();
 $session = new Session();
+$user = new User();
 
 ?>
 

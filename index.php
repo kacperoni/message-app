@@ -9,8 +9,8 @@ if (isset($_POST['login_submit'])) {
         $password = $database->escapeString($_POST['password']);
         $sql = "SELECT * FROM users WHERE email = ?";
         if ($database->numRows($sql, [$email])) {
-            $user = $database->fetchAssoc($sql, [$email]);
-            if (password_verify($password, $user['password'])) {
+            $user->instantiation($database->fetchAssoc($sql, [$email]));
+            if (password_verify($password, $user->getPassword())) {
                 $session->loginUser($user);
             } else {
                 $session->setFlashMessage('error', 'Wrong password! Try again!');

@@ -2,4 +2,4 @@
 
 include "_header.php";
 
-$session->logoutUser();
+$session->logoutUser($user);
