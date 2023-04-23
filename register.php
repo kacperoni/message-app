@@ -3,6 +3,7 @@
 if (isset($_POST['register_submit'])) {
     if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['password'])) {
         $session->setFlashMessage('warning', 'Fields cannot be empty!');
+        header("Location: register.php");
     } else {
         $firstname = $database->escapeString($_POST['name']);
         $email = $database->escapeString($_POST['email']);
@@ -16,9 +17,11 @@ if (isset($_POST['register_submit'])) {
 
         if ($database->numRows("SELECT id FROM users WHERE email = ?", [$email])) {
             $session->setFlashMessage('warning', "This email is already taken.");
+            header("Location: register.php");
         } else {
             if (!empty($profilePictureName) && !in_array($profilePictureExtension, $allowedExtensions)) {
                 $session->setFlashMessage('error', "Extension not allowed, please choose a JPEG or PNG file.");
+                header("Location: register.php");
             }
             if (!$session->isErrorMessage()) {
                 if (!empty($profilePictureName))
@@ -41,7 +44,7 @@ if (isset($_POST['register_submit'])) {
     <form method="POST" enctype="multipart/form-data">
         <div>
             <label for="name" class="block mb-2 font-medium text-sm ml-1 text-gray-900 dark:text-white">Name</label>
-            <input type="text" name="name" value="<?= isset($_POST['name']) ? $_POST['name'] : ''; ?>" class="block w-full p-2 rounded-lg border border-gray-300 dark:border-gray-700 mb-4 bg-gray-50 dark:bg-gray-700 text-black dark:text-white
+            <input type="text" name="name" class="block w-full p-2 rounded-lg border border-gray-300 dark:border-gray-700 mb-4 bg-gray-50 dark:bg-gray-700 text-black dark:text-white
                     focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400" placeholder="First name" />
         </div>
         <label class="block font-medium text-sm mb-2 ml-1 text-gray-900 dark:text-white">Profile picture</label>
@@ -55,12 +58,12 @@ if (isset($_POST['register_submit'])) {
 
         <div>
             <label for="email" class="block mb-2 font-medium text-sm ml-1 text-gray-900 dark:text-white">E-mail</label>
-            <input type="text" name="email" value="<?= isset($_POST['email']) ? $_POST['email'] : ''; ?>" class="block w-full p-2 rounded-lg border border-gray-300 dark:border-gray-700 mb-4 bg-gray-50 dark:bg-gray-700 text-black dark:text-white
+            <input type="text" name="email" class="block w-full p-2 rounded-lg border border-gray-300 dark:border-gray-700 mb-4 bg-gray-50 dark:bg-gray-700 text-black dark:text-white
                     focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400" placeholder="E-mail" />
         </div>
         <div>
             <label for="email" class="block mb-2 font-medium text-sm ml-1 text-gray-900 dark:text-white">Password</label>
-            <input type="password" name="password" value="<?= isset($_POST['password']) ? $_POST['password'] : ''; ?>" class="block w-full p-2 rounded-lg border border-gray-300 dark:border-gray-700 mb-4 bg-gray-50 dark:bg-gray-700 text-black dark:text-white
+            <input type="password" name="password" class="block w-full p-2 rounded-lg border border-gray-300 dark:border-gray-700 mb-4 bg-gray-50 dark:bg-gray-700 text-black dark:text-white
                     focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400" placeholder="Password" />
         </div>
         <div class="flex justify-between items-center">

@@ -24,11 +24,27 @@ final class Session
         if (isset($_SESSION[self::FLASH])) {
             foreach ($_SESSION[self::FLASH] as $type => $message) {
                 echo $this->formatFlashMessage($type, $message);
-                unset($_SESSION[self::FLASH][$type]);
+                unset($_SESSION[self::FLASH]);
             }
-        } else {
-            echo 'dupaaaa;';
         }
+    }
+
+    public function loginUser(array $user)
+    {
+        foreach ($user as $key => $value) {
+            if ($key === 'password')
+                continue;
+            $_SESSION[$key] = $value;
+        }
+        header("Location: home.php");
+    }
+
+    public function logoutUser()
+    {
+        session_unset();
+        session_destroy();
+        $this->setFlashMessage('success', 'You have been logout successfully!');
+        header('Location: index.php');
     }
 
     private function formatFlashMessage(string $type, string $message)

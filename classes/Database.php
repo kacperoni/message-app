@@ -28,6 +28,13 @@ class Database
         return $stmt;
     }
 
+    public function fetchAssoc(string $sql = '', array $params = [])
+    {
+        $stmt = $this->query($sql, $params);
+        $results = $stmt->get_result();
+        return $results->fetch_assoc();
+    }
+
     private function getType($variable): string
     {
         if (is_string($variable)) return 's';
