@@ -4,7 +4,7 @@ final class Database
 {
     protected $mysqli;
 
-    public function __construct(string $dbHost = 'localhost:3305', string $dbUser = 'root', string $dbPass = 'root', string $dbName = 'message-app-db')
+    public function __construct(string $dbHost = 'localhost', string $dbUser = 'root', string $dbPass = 'root', string $dbName = 'message-app-db')
     {
         $this->mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
         if ($this->mysqli->connect_error) {
@@ -33,6 +33,23 @@ final class Database
         $stmt = $this->query($sql, $params);
         $results = $stmt->get_result();
         return $results->fetch_assoc();
+    }
+
+    public function fetchAll(string $sql = '', array $params = []): array
+    {
+        $stmt = $this->query($sql, $params);
+        $result = $stmt->get_result();
+        $all = [];
+        while ($row = $result->fetch_assoc()) {
+            $all[] = $row;
+        }
+        return $all;
+    }
+
+    public function findUserById(int $userId): array
+    {
+        $sql = "SELECT * FROM users WHERE id = ?";
+        return $this->fetchAssoc($sql, [$userId]);
     }
 
     private function getType($variable): string

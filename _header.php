@@ -15,12 +15,11 @@
 </head>
 <?php
 ob_start();
-spl_autoload_register(function ($class) {
-    include 'classes/' . $class . '.php';
-});
+include "autoload.php";
 $database = new Database();
 $session = new Session();
 $user = new User();
+$conversation = new Conversation($database);
 
 ?>
 
