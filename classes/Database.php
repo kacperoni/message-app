@@ -4,7 +4,7 @@ final class Database
 {
     protected $mysqli;
 
-    public function __construct(string $dbHost = 'localhost', string $dbUser = 'root', string $dbPass = 'root', string $dbName = 'message-app-db')
+    public function __construct(string $dbHost = 'localhost:3305', string $dbUser = 'root', string $dbPass = 'root', string $dbName = 'message-app-db')
     {
         $this->mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
         if ($this->mysqli->connect_error) {
