@@ -8,12 +8,14 @@ final class Session
     const FLASH_WARNING = 'warning';
     const FLASH_SUCCESS = 'success';
 
+    private bool $isUserAuthenticated = false;
+
     public function __construct()
     {
         session_start();
     }
 
-    public function setFlashMessage(string $type, string $message)
+    public function setFlashMessage(string $type, string $message): void
     {
         if ($this->correctFlashMessageType($type))
             $_SESSION[self::FLASH][$type] = $message;
@@ -29,8 +31,9 @@ final class Session
         }
     }
 
-    public function loginUser(User $user)
+    public function loginUser(User $user): void
     {
+        $this->isUserAuthenticated = true;
         foreach ($user->props as $key => $value) {
             $geterName = 'get' . ucfirst($value);
             $_SESSION[$value] = $user->$geterName();
@@ -38,16 +41,16 @@ final class Session
         header("Location: home.php");
     }
 
-    public function logoutUser(User $user)
+    public function logoutUser(): void
     {
         session_unset();
         session_destroy();
-        // $user->unsetUser();
+        $this->isUserAuthenticated = false;
         $this->setFlashMessage('success', 'You have been logout successfully!');
         header('Location: index.php');
     }
 
-    private function formatFlashMessage(string $type, string $message)
+    private function formatFlashMessage(string $type, string $message): string
     {
         $color = $this->getAlertColor($type);
         return sprintf("

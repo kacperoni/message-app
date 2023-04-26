@@ -73,7 +73,4 @@ if (isset($_POST['register_submit'])) {
     </form>
 
 </div>
-</div>
-</body>
-
-</html>
+<?php include "_footer.php"; ?>

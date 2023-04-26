@@ -1,27 +1,12 @@
 <?php include "_header.php"; ?>
-<style>
-    ::-webkit-scrollbar {
-        width: 5px;
-    }
 
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    ::-webkit-scrollbar-thumb {
-        background: #888;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        background: #555;
-    }
-</style>
 <div class="bg-white dark:bg-gray-800 dark:text-white shadow-xl rounded-md xl:w-1/4 w-3/4 mx-auto">
     <div class="flex justify-between items-center p-4 pb-2">
         <div class="flex">
             <img src="<?= $user->getProfilePicturePath(); ?>" alt="logo" class="self-center w-16 rounded-full border border-2 dark:border-gray-700">
             <span class="self-center ml-4 md:text-2xl font-semibold"><?= $user->getFirstname(); ?></span>
         </div>
+        <button><i class="fa-solid fa-moon" style="color: #b0b0b0;"></i></button>
         <a class="self-center bg-cyan-400 hover:bg-cyan-500 p-1 px-3 rounded-md shadow-md text-gray-100 font-semibold text-sm" href="logout.php">Logout</a>
     </div>
 
@@ -40,52 +25,19 @@
     <!-- all conversations -->
     <div class="overflow-auto h-80" id="users">
         <div class="text-sm ml-4 font-semibold text-gray-400">Chats</div>
-        <?php
-        $allUserConv = $conversation->fetchAllByUserId($user->getId());
-        if (!empty($allUserConv)) {
+        <?php $allUserConv = $conversation->fetchAllByUserId($user->getId()); ?>
+        <?php if (!empty($allUserConv)) : ?>
+            <?php
             foreach ($allUserConv as $conver) {
                 $secondUserId = $user->getId() != $conver['user1_id'] ? $conver['user1_id'] : $conver['user2_id'];
                 $secondUser = $database->findUserById($secondUserId);
-                echo sprintf(
-                    "
-                <div class='flex justify-between items-center border-b p-3 px-4 border-gray-300 dark:border-gray-700 hover:bg-gray-300 dark:hover:bg-gray-700'>
-                    <div class='flex'>
-                        <img src='profile_pics/%s' alt='logo' class='self-center w-16 rounded-full border border-2 dark:border-gray-700'>
-                        <span class='self-center ml-4 text-xl font-medium'>%s</span>
-                    </div>
-                </div>",
-                    $secondUser['profilePicture'],
-                    $secondUser['firstname']
-                );
+                echo returnUserTile($secondUser['profilePicture'], $secondUser['firstname']);
             }
-        } else {
-        ?>
+            ?>
+        <?php else : ?>
             <div class="text-center mt-4 text-gray-400 font-semibold">No conversations.</div>
-        <?php
-        }
-        ?>
+        <?php endif ?>
     </div>
+
 </div>
-</div>
-</body>
-<script>
-    const search = document.getElementById('search');
-    search.addEventListener('keyup', (event) => {
-        event.preventDefault();
-
-        const xhr = new XMLHttpRequest();
-        const userId = <?= $user->getId(); ?>;
-        const params = 'search=' + search.value + '&userId=' + userId;
-        xhr.open('POST', 'search.php', true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-        xhr.onload = function() {
-            console.log(this.responseText);
-            document.getElementById('users').innerHTML = this.responseText;
-        }
-
-        xhr.send(params);
-    });
-</script>
-
-</html>
+<?php include "_footer.php"; ?>
