@@ -6,8 +6,10 @@
             <img src="<?= $user->getProfilePicturePath(); ?>" alt="logo" class="self-center w-16 rounded-full border border-2 dark:border-gray-700">
             <span class="self-center ml-4 md:text-2xl font-semibold"><?= $user->getFirstname(); ?></span>
         </div>
-        <button><i class="fa-solid fa-moon" style="color: #b0b0b0;"></i></button>
-        <a class="self-center bg-cyan-400 hover:bg-cyan-500 p-1 px-3 rounded-md shadow-md text-gray-100 font-semibold text-sm" href="logout.php">Logout</a>
+        <div>
+            <button id="modeButton" class="dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 shadow-md bg-gray-50 border-gray-300 text-gray-500 p-1 px-3 mx-1 rounded-md text-sm font-semibold border border-1 dark:border-gray-600"><i class="fa-solid fa-moon"></i></button>
+            <a class="self-center bg-cyan-400 hover:bg-cyan-500 p-1 px-3 rounded-md shadow-md text-gray-100 font-semibold text-sm" href="logout.php">Logout</a>
+        </div>
     </div>
 
     <!--search form -->
@@ -31,7 +33,11 @@
             foreach ($allUserConv as $conver) {
                 $secondUserId = $user->getId() != $conver['user1_id'] ? $conver['user1_id'] : $conver['user2_id'];
                 $secondUser = $database->findUserById($secondUserId);
-                echo returnUserTile($secondUser['profilePicture'], $secondUser['firstname']);
+                echo returnUserTile(
+                    $secondUser['profilePicture'],
+                    $secondUser['firstname'],
+                    'conversations.php?userId=' . $secondUserId
+                );
             }
             ?>
         <?php else : ?>

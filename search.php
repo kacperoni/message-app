@@ -20,7 +20,11 @@ if (isset($_POST['search'])) {
             foreach ($allUserConv as $conver) {
                 $secondUserId = $_POST['userId'] != $conver['user1_id'] ? $conver['user1_id'] : $conver['user2_id'];
                 $secondUser = $connection->findUserById($secondUserId);
-                echo returnUserTile($secondUser['profilePicture'], $secondUser['firstname']);
+                echo returnUserTile(
+                    $secondUser['profilePicture'],
+                    $secondUser['firstname'],
+                    'conversations.php?userId=' . $secondUserId
+                );
             }
         } else {
             echo '<div class="text-center mt-4 text-gray-400 font-semibold">No conversations.</div>';
