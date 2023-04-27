@@ -8,7 +8,7 @@
         </div>
         <div>
             <button id="modeButton" class="dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 shadow-md bg-gray-50 border-gray-300 text-gray-500 p-1 px-3 mx-1 rounded-md text-sm font-semibold border border-1 dark:border-gray-600"><i class="fa-solid fa-moon"></i></button>
-            <a class="self-center bg-cyan-400 hover:bg-cyan-500 p-1 px-3 rounded-md shadow-md text-gray-100 font-semibold text-sm" href="logout.php">Logout</a>
+            <a class="bg-cyan-400 hover:bg-cyan-500 p-1 px-3 rounded-md shadow-md border border-cyan-500 border-1 text-gray-100 font-semibold text-sm" href="logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
         </div>
     </div>
 
