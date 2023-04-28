@@ -19,8 +19,8 @@ final class Conversation
 
     public function findConversationByUsersId(int $firstUserId, int $secondUserId): array
     {
-        $sql = "SELECT * FROM conversations WHERE user1_id = ? AND user2_id = ?";
-        $result = $this->database->fetchAssoc($sql, [$firstUserId, $secondUserId]);
+        $sql = "SELECT * FROM conversations WHERE (user1_id = ? AND user2_id = ?) OR (user1_id = ? AND user2_id = ?)";
+        $result = $this->database->fetchAssoc($sql, [$firstUserId, $secondUserId, $secondUserId, $firstUserId]);
         if ($result == null) {
             if ($this->database->findUserById($secondUserId)) {
                 $this->createConversation($firstUserId, $secondUserId);
@@ -32,8 +32,15 @@ final class Conversation
             };
             die();
         }
-        return $this->database->fetchAssoc($sql, [$firstUserId, $secondUserId]);
+        return $this->database->fetchAssoc($sql, [$firstUserId, $secondUserId, $secondUserId, $firstUserId]);
     }
+
+    public function getAllMessages(): array
+    {
+        $sql = "SELECT * FROM messages WHERE conversationId  = ?";
+        return $this->database->fetchAll($sql, [$this->id]);
+    }
+
 
     public function createConversation(int $firstUserId, int $secondUserId): void
     {
@@ -44,5 +51,10 @@ final class Conversation
     public function setId(int $id): void
     {
         $this->id = $id;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 }
