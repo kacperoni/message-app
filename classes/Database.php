@@ -46,7 +46,7 @@ final class Database
         return $all;
     }
 
-    public function findUserById(int $userId): array
+    public function findUserById(int $userId): ?array
     {
         $sql = "SELECT * FROM users WHERE id = ?";
         return $this->fetchAssoc($sql, [$userId]);

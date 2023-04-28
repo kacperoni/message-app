@@ -37,7 +37,7 @@ if (isset($_POST['search'])) {
     } else if (!empty($result) && $searchFlag) {
         echo '<div class="text-sm ml-4 font-semibold text-gray-400">Results</div>';
         foreach ($result as $user) {
-            echo returnUserTile($user['profilePicture'], $user['firstname']);
+            echo returnUserTile($user['profilePicture'], $user['firstname'], 'conversations.php?userId=' . $user['id']);
         }
     }
 }

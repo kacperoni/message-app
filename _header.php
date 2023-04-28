@@ -21,11 +21,11 @@ include "helpers.php";
 $database = new Database();
 $session = new Session();
 $user = new User();
-$conversation = new Conversation($database);
+$conversation = new Conversation($database, $session);
 ?>
 
 <body class="bg-gray-200 dark:bg-gray-700">
-    <div class="w-full mx-auto md:pt-32 pt-8">
+    <div class="w-full mx-auto md:pt-32 pt-8 h-full">
         <div class="xl:w-1/4 w-3/4 mx-auto">
             <?= $session->getFlashMessages() ?>
         </div>
