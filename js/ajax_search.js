@@ -5,7 +5,7 @@ search.addEventListener('keyup', (event) => {
 
     const xhr = new XMLHttpRequest();
     const params = 'search=' + search.value + '&userId=' + userId;
-    xhr.open('POST', '../search.php', true);
+    xhr.open('POST', '../ajax_php/search.php', true);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
     xhr.onload = function() {

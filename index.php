@@ -1,4 +1,5 @@
-<?php include "_header.php" ?>
+<?php include "includes/_header.php" ?>
+<?php $session->redirectHomeIfAuthenticated(); ?>
 <?php
 if (isset($_POST['login_submit'])) {
     if (empty($_POST['email']) || empty($_POST['password'])) {
@@ -43,4 +44,4 @@ if (isset($_POST['login_submit'])) {
     </form>
 
 </div>
-<?php include "_footer.php"; ?>
+<?php include "includes/_footer.php"; ?>

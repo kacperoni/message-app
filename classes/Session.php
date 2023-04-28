@@ -3,7 +3,6 @@
 final class Session
 {
     const FLASH = 'flash_messages';
-
     const FLASH_ERROR = 'error';
     const FLASH_WARNING = 'warning';
     const FLASH_SUCCESS = 'success';
@@ -44,10 +43,23 @@ final class Session
     public function logoutUser(): void
     {
         session_unset();
-        session_destroy();
         $this->isUserAuthenticated = false;
         $this->setFlashMessage('success', 'You have been logout successfully!');
         header('Location: index.php');
+    }
+
+    public function redirectIndexIfNotAuthenticated(): void
+    {
+        if (empty($_SESSION)) {
+            header("Location: index.php");
+        }
+    }
+
+    public function redirectHomeIfAuthenticated(): void
+    {
+        if (!empty($_SESSION)) {
+            header("Location: home.php");
+        }
     }
 
     private function formatFlashMessage(string $type, string $message): string

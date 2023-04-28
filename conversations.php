@@ -1,6 +1,6 @@
-<?php include "_header.php"; ?>
+<?php include "includes/_header.php"; ?>
+<?php $session->redirectIndexIfNotAuthenticated(); ?>
 <?php
-
 if (isset($_GET['userId'])) {
     $secondUserId = (int) $database->escapeString($_GET['userId']);
     $conversationId = $conversation->findConversationByUsersId($user->getId(), $secondUserId)['id'];
@@ -29,6 +29,7 @@ if (isset($_GET['userId'])) {
     </div>
 
     <hr class="h-px bg-gray-300 dark:bg-gray-700 border-0 mb-2">
+
     <!-- sent message form -->
     <form method="POST" id="sendMessageForm" class="flex items-center p-4 pt-2">
         <input type="text" name="message" id="message" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-cyan-400
@@ -44,45 +45,9 @@ if (isset($_GET['userId'])) {
     }
     ?>
 </div>
-<script>
+<script type="text/javascript">
     const conversationId = <?= $conversation->getId(); ?>;
     const authorId = <?= $user->getId(); ?>;
     const recipientId = <?= $secondUser->getId(); ?>;
-
-    function fetchData() {
-        const xhr = new XMLHttpRequest();
-        const url = "messages.php?conversationId=" + conversationId + "&authorId=" + authorId + "&recipientId=" + recipientId;
-        const chat = document.getElementById("chat");
-        xhr.open("GET", url, true);
-
-        xhr.onload = function() {
-            chat.innerHTML = this.responseText;
-        }
-
-        xhr.send();
-    }
-
-    document.getElementById("sendMessageForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-        const message = document.getElementById("message").value;
-        const xhr = new XMLHttpRequest();
-        const params = "message=" + message + "&authorId=" + authorId + "&recipientId=" + recipientId + "&conversationId=" + conversationId;
-        xhr.open("POST", "sendMessage.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onload = function() {
-            console.log(this.responseText);
-        }
-        xhr.send(params);
-        document.getElementById("message").value = '';
-        document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
-    });
-
-
-    fetchData();
-    document.getElementById("chat").scroll({
-        top: document.getElementById("chat").scrollHeight,
-        behavior: "smooth"
-    });
-    setInterval(fetchData, 500);
 </script>
-<?php include "_footer.php"; ?>
+<?php include "includes/_footer.php"; ?>

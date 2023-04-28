@@ -1,6 +1,6 @@
 <?php
-include "autoload.php";
-include "helpers.php";
+include "../autoload.php";
+include "../includes/helpers.php";
 $connection = new Database();
 $conversation = new Conversation($connection);
 $message = new Message();

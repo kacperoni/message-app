@@ -1,5 +1,5 @@
-<?php include "_header.php"; ?>
-
+<?php include "includes/_header.php"; ?>
+<?php $session->redirectIndexIfNotAuthenticated(); ?>
 <div class="bg-white dark:bg-gray-800 dark:text-white shadow-xl rounded-md xl:w-1/4 w-3/4 mx-auto">
     <div class="flex justify-between items-center p-4 pb-2">
         <div class="flex">
@@ -46,4 +46,4 @@
     </div>
 
 </div>
-<?php include "_footer.php"; ?>
+<?php include "includes/_footer.php"; ?>
