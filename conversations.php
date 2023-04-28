@@ -30,8 +30,8 @@ if (isset($_GET['userId'])) {
 
     <hr class="h-px bg-gray-300 dark:bg-gray-700 border-0 mb-2">
     <!-- sent message form -->
-    <form method="POST" class="flex items-center p-4 pt-2">
-        <input type="text" name="message" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-cyan-400
+    <form method="POST" id="sendMessageForm" class="flex items-center p-4 pt-2">
+        <input type="text" name="message" id="message" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-cyan-400
                 focus:ring-1 focus:ring-cyan-400 block w-full p-2.5
                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-cyan-500 dark:focus:border-cyan-500" placeholder="Aa" autocomplete="off" required>
         <button type="submit" name="sendMessage" class="bg-cyan-400 hover:bg-cyan-500 ml-2 p-2.5 px-4 rounded-md shadow-md text-gray-100 font-semibold text-sm"><i class="fa-solid fa-paper-plane"></i></a>
@@ -45,18 +45,44 @@ if (isset($_GET['userId'])) {
     ?>
 </div>
 <script>
-    const xhr = new XMLHttpRequest();
     const conversationId = <?= $conversation->getId(); ?>;
     const authorId = <?= $user->getId(); ?>;
     const recipientId = <?= $secondUser->getId(); ?>;
-    const url = "messages.php?conversationId=" + conversationId + "&authorId=" + authorId + "&recipientId=" + recipientId;
-    const chat = document.getElementById("chat");
-    xhr.open("GET", url, true);
 
-    xhr.onload = function() {
-        chat.innerHTML = this.responseText;
+    function fetchData() {
+        const xhr = new XMLHttpRequest();
+        const url = "messages.php?conversationId=" + conversationId + "&authorId=" + authorId + "&recipientId=" + recipientId;
+        const chat = document.getElementById("chat");
+        xhr.open("GET", url, true);
+
+        xhr.onload = function() {
+            chat.innerHTML = this.responseText;
+        }
+
+        xhr.send();
     }
 
-    xhr.send();
+    document.getElementById("sendMessageForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const message = document.getElementById("message").value;
+        const xhr = new XMLHttpRequest();
+        const params = "message=" + message + "&authorId=" + authorId + "&recipientId=" + recipientId + "&conversationId=" + conversationId;
+        xhr.open("POST", "sendMessage.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onload = function() {
+            console.log(this.responseText);
+        }
+        xhr.send(params);
+        document.getElementById("message").value = '';
+        document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+    });
+
+
+    fetchData();
+    document.getElementById("chat").scroll({
+        top: document.getElementById("chat").scrollHeight,
+        behavior: "smooth"
+    });
+    setInterval(fetchData, 500);
 </script>
 <?php include "_footer.php"; ?>
