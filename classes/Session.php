@@ -7,8 +7,6 @@ final class Session
     const FLASH_WARNING = 'warning';
     const FLASH_SUCCESS = 'success';
 
-    private bool $isUserAuthenticated = false;
-
     public function __construct()
     {
         session_start();
@@ -32,7 +30,7 @@ final class Session
 
     public function loginUser(User $user): void
     {
-        $this->isUserAuthenticated = true;
+        $user->setUserLoggedIn();
         foreach ($user->props as $key => $value) {
             $geterName = 'get' . ucfirst($value);
             $_SESSION[$value] = $user->$geterName();
@@ -40,10 +38,10 @@ final class Session
         header("Location: home.php");
     }
 
-    public function logoutUser(): void
+    public function logoutUser(User $user): void
     {
         session_unset();
-        $this->isUserAuthenticated = false;
+        $user->setUserLoggedOut();
         $this->setFlashMessage('success', 'You have been logout successfully!');
         header('Location: index.php');
     }

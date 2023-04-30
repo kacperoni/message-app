@@ -7,7 +7,8 @@ final class User
     private ?string $email = null;
     private ?string $password = null;
     private ?string $profilePicture = null;
-    public array $props = ['id', 'firstname', 'email', 'password', 'profilePicture'];
+    private ?bool $active = null;
+    public array $props = ['id', 'firstname', 'email', 'password', 'profilePicture', 'active'];
 
     public function __construct()
     {
@@ -27,6 +28,16 @@ final class User
     public function getProfilePicturePath(): string
     {
         return '../profile_pics/' . $this->profilePicture;
+    }
+
+    public function setUserLoggedIn(): void
+    {
+        $this->active = true;
+    }
+
+    public function setUserLoggedOut(): void
+    {
+        $this->active = false;
     }
 
     public function getId(): ?int
@@ -67,5 +78,15 @@ final class User
     public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
     }
 }
