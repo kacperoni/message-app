@@ -4,7 +4,7 @@ include "../includes/helpers.php";
 $connection = new Database();
 $conversation = new Conversation($connection);
 $message = new Message();
-$user = new User();
+$user = new User($connection);
 if (isset($_GET['conversationId']) && isset($_GET['authorId']) && isset($_GET['recipientId'])) {
     $conversation->setId($connection->escapeString($_GET['conversationId']));
     $authorId = $connection->escapeString($_GET['authorId']);

@@ -9,7 +9,7 @@ final class User
     private ?string $profilePicture = null;
     private ?bool $active = null;
     private ?Database $database = null;
-    private ?DateTime $lastSeen = null;
+    private ?string $lastSeen = null;
     public array $props = ['id', 'firstname', 'email', 'password', 'profilePicture', 'active', 'lastSeen'];
 
     public function __construct(Database $database)
@@ -95,5 +95,10 @@ final class User
     public function setActive(bool $active): void
     {
         $this->active = $active;
+    }
+
+    public function getLastSeen(): ?string
+    {
+        return $this->lastSeen;
     }
 }

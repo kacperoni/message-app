@@ -27,26 +27,7 @@
     <!-- all conversations -->
     <div class="overflow-auto h-80" id="users">
         <div class="text-sm ml-4 font-semibold text-gray-400">Chats</div>
-
     </div>
 
 </div>
-<script>
-    readAllConversation();
-    setInterval(readAllConversation, 2000);
-
-    function readAllConversation() {
-        const xhr = new XMLHttpRequest();
-        const userId = <?= $user->getId(); ?>;
-        const params = 'userId=' + userId;
-        xhr.open('POST', '../ajax_php/allConversations.php', true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-        xhr.onload = function() {
-            document.getElementById('users').innerHTML = this.responseText;
-        }
-
-        xhr.send(params);
-    }
-</script>
 <?php include "includes/_footer.php"; ?>

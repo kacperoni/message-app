@@ -1,6 +1,5 @@
 <?php
-include "autoload.php";
-include "helpers.php";
+include "../autoload.php";
 $connection = new Database();
 
 if (isset($_POST['message']) && isset($_POST['authorId']) && isset($_POST['recipientId']) && isset($_POST['conversationId'])) {

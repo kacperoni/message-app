@@ -14,9 +14,7 @@ if (isset($_POST['userId'])) {
             $secondUserId = $userId != $conver['user1_id'] ? $conver['user1_id'] : $conver['user2_id'];
             $secondUser = $connection->findUserById($secondUserId);
             echo returnUserTile(
-                $secondUser['profilePicture'],
-                $secondUser['firstname'],
-                $secondUser['active'],
+                $secondUser,
                 'conversations.php?userId=' . $secondUserId
             );
         }
