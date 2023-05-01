@@ -23,6 +23,7 @@ if (isset($_POST['search'])) {
                 echo returnUserTile(
                     $secondUser['profilePicture'],
                     $secondUser['firstname'],
+                    $secondUser['active'],
                     'conversations.php?userId=' . $secondUserId
                 );
             }
@@ -37,7 +38,7 @@ if (isset($_POST['search'])) {
     } else if (!empty($result) && $searchFlag) {
         echo '<div class="text-sm ml-4 font-semibold text-gray-400">Results</div>';
         foreach ($result as $user) {
-            echo returnUserTile($user['profilePicture'], $user['firstname'], 'conversations.php?userId=' . $user['id']);
+            echo returnUserTile($user['profilePicture'], $user['firstname'], $user['active'], 'conversations.php?userId=' . $user['id']);
         }
     }
 }

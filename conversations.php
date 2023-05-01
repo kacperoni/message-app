@@ -5,7 +5,7 @@ if (isset($_GET['userId'])) {
     $secondUserId = (int) $database->escapeString($_GET['userId']);
     $conversationId = $conversation->findConversationByUsersId($user->getId(), $secondUserId)['id'];
 
-    $secondUser = new User;
+    $secondUser = new User($database);
     $secondUser->instantiation($database->findUserById($secondUserId));
     $conversation->setId($conversationId);
 }

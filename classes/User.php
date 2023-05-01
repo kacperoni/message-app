@@ -8,11 +8,14 @@ final class User
     private ?string $password = null;
     private ?string $profilePicture = null;
     private ?bool $active = null;
-    public array $props = ['id', 'firstname', 'email', 'password', 'profilePicture', 'active'];
+    private ?Database $database = null;
+    private ?DateTime $lastSeen = null;
+    public array $props = ['id', 'firstname', 'email', 'password', 'profilePicture', 'active', 'lastSeen'];
 
-    public function __construct()
+    public function __construct(Database $database)
     {
         foreach ($this as $key => $value) {
+            if ($key == 'database') $this->$key = $database;
             if (isset($_SESSION[$key]))
                 $this->$key = $_SESSION[$key];
         }
@@ -33,10 +36,14 @@ final class User
     public function setUserLoggedIn(): void
     {
         $this->active = true;
+        $sql = "UPDATE users SET active = ? WHERE id = ?";
+        $this->database->query($sql, [1, $this->id]);
     }
 
     public function setUserLoggedOut(): void
     {
+        $sql = "UPDATE users SET active = ?, lastSeen = NOW() WHERE id = ?";
+        $this->database->query($sql, [0, $this->id]);
         $this->active = false;
     }
 

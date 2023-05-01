@@ -20,7 +20,7 @@ include "autoload.php";
 include "helpers.php";
 $database = new Database();
 $session = new Session();
-$user = new User();
+$user = new User($database);
 $conversation = new Conversation($database, $session);
 ?>
 
