@@ -7,9 +7,12 @@ function fetchData() {
     xhr.onload = function() {
         chat.innerHTML = this.responseText;
     }
-
+    
     xhr.send();
+    
 }
-
-fetchData();
-setInterval(fetchData, 1000);
+if(typeof conversationId !== 'undefined'){
+    document.getElementById("chat").scrollTop = document.getElementById("chat").scrollHeight;
+    fetchData();
+    setInterval(fetchData, 1000);
+}

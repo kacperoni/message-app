@@ -45,9 +45,11 @@ if (isset($_GET['userId'])) {
     }
     ?>
 </div>
+
 <script type="text/javascript">
     const conversationId = <?= $conversation->getId(); ?>;
     const authorId = <?= $user->getId(); ?>;
     const recipientId = <?= $secondUser->getId(); ?>;
 </script>
+
 <?php include "includes/_footer.php"; ?>

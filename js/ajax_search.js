@@ -1,5 +1,5 @@
 const search = document.getElementById('search');
-console.log(search.value);
+if(search !== null){
     search.addEventListener('keyup', (event) => {
         event.preventDefault();
         if(search.value){
@@ -18,20 +18,22 @@ console.log(search.value);
             readAllConversation();
         }
     });
-
+}
+if(document.getElementById('users') !== null){
     readAllConversation();
 setInterval(readAllConversation, 5000)
+}
 
 
-    function readAllConversation() {
-        const xhr = new XMLHttpRequest();
-        const params = 'userId=' + userId;
-        xhr.open('POST', '../ajax_php/allConversations.php', true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+function readAllConversation() {
+    const xhr = new XMLHttpRequest();
+    const params = 'userId=' + userId;
+    xhr.open('POST', '../ajax_php/allConversations.php', true);
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-        xhr.onload = function() {
-            document.getElementById('users').innerHTML = this.responseText;
-        }
-
-        xhr.send(params);
+    xhr.onload = function() {
+        document.getElementById('users').innerHTML = this.responseText;
     }
+
+    xhr.send(params);
+}
